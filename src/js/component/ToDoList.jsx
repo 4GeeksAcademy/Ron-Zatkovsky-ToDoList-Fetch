@@ -6,11 +6,11 @@ export default function ToDoList(){
     const [data,setData]=useState({});
     const [newFetch,setNewFetch]=useState(false);
     const [newRemove,setNewRemove]=useState(false);
-    
 
+    let user="Ron_Zatkovsky"
     useEffect(()=>{
         const createUser= ()=>{
-            fetch(`https://playground.4geeks.com/todo/users/Ron_Zatkovsky`,{
+            fetch(`https://playground.4geeks.com/todo/users/`+user,{
                 method:'POST',
                 body:JSON.stringify({name:'Ron_Zatkovsky'}),
                 headers: {
@@ -19,28 +19,24 @@ export default function ToDoList(){
             }).catch((e)=>{console.log("user was created ",e)})
         }
         createUser();
+        setNewFetch(!newFetch);
     },[newRemove])
 
 	useEffect(()=>{
         const getData=()=>{
-             fetch(`https://playground.4geeks.com/todo/users/Ron_Zatkovsky`).then((response)=>{
+             fetch(`https://playground.4geeks.com/todo/users/`+user).then((response)=>{
                 if(response.ok){
                     return response.json();
                 }
             }).then((jsonData)=>{
-                console.log(jsonData)
                 setData(jsonData);
             }).catch((error)=>{console.log(error)})
         }
         getData();
     },[newFetch])
 
-    useEffect(()=>{
-        console.log(data);
-    },[data])
-
     const postData=()=>{
-         fetch(`https://playground.4geeks.com/todo/todos/Ron_Zatkovsky`,{
+         fetch(`https://playground.4geeks.com/todo/todos/`+user,{
             method:'POST',
             body:JSON.stringify({label:input,is_done:false}),
             headers: {
@@ -57,7 +53,7 @@ export default function ToDoList(){
     }
 
     const removeUser= ()=>{
-        fetch(`https://playground.4geeks.com/todo/users/Ron_Zatkovsky`,{
+        fetch(`https://playground.4geeks.com/todo/users/`+user,{
             method:"DELETE",
         });
         setNewRemove(!newRemove);
@@ -84,11 +80,11 @@ export default function ToDoList(){
                     Delete all tasks
                 </button>
             </div>
-            {data.todos==undefined?null:
+            {data===undefined?null:data.todos==undefined?null:
             data.todos.map((array)=>{
                 return(
                     <div key={array.id} id={array.id}>
-                        <ListObject label={array.label} id={array.id} setData={setData} newFetch={newFetch} setNewFetch={setNewFetch}/>
+                        <ListObject user={user} label={array.label} id={array.id} setData={setData} newFetch={newFetch} setNewFetch={setNewFetch}/>
                     </div>
                 );
             })}
