@@ -5,6 +5,8 @@ export default function ToDoList(){
     const [input,setInput]=useState('');
     const [data,setData]=useState({});
     const [newFetch,setNewFetch]=useState(false);
+    const [newRemove,setNewRemove]=useState(false);
+    
 
     useEffect(()=>{
         const createUser= ()=>{
@@ -17,11 +19,11 @@ export default function ToDoList(){
             }).catch((e)=>{console.log("user was created ",e)})
         }
         createUser();
-    },[])
+    },[newRemove])
 
 	useEffect(()=>{
-        const getData= async ()=>{
-            await fetch(`https://playground.4geeks.com/todo/users/`+'Ron_Zatkovsky').then((response)=>{
+        const getData=()=>{
+             fetch(`https://playground.4geeks.com/todo/users/Ron_Zatkovsky`).then((response)=>{
                 if(response.ok){
                     return response.json();
                 }
@@ -37,8 +39,8 @@ export default function ToDoList(){
         console.log(data);
     },[data])
 
-    async function postData(){
-        await fetch(`https://playground.4geeks.com/todo/todos/`+'Ron_Zatkovsky',{
+    const postData=()=>{
+         fetch(`https://playground.4geeks.com/todo/todos/Ron_Zatkovsky`,{
             method:'POST',
             body:JSON.stringify({label:input,is_done:false}),
             headers: {
@@ -54,11 +56,13 @@ export default function ToDoList(){
         }).catch((error)=>{console.log(error)});
     }
 
-    const removeUser=async ()=>{
-        const response = await fetch(`https://playground.4geeks.com/todo/users/Ron_Zatkovsky`,{
+    const removeUser= ()=>{
+        fetch(`https://playground.4geeks.com/todo/users/Ron_Zatkovsky`,{
             method:"DELETE",
         });
+        setNewRemove(!newRemove);
         setNewFetch(!newFetch);
+        alert("Refresh the page to restart")
     }
 
     const handleEnter=(key)=>{
@@ -70,16 +74,16 @@ export default function ToDoList(){
     return(
         <div>
             <div>
-                <button className="btn btn-primary row" onClick={removeUser}>
-                    Delete User
-                </button>
                 <input 
                     placeholder="What needs to be done?"
                     onChange={(e)=>{setInput(e.target.value)}}
                     value={input}
                     onKeyUp={(e)=>{handleEnter(e.key)}}
-                    className="row"
+                    className="col"
                 ></input>
+                <button className="btn btn-primary col" onClick={removeUser}>
+                    Delete all tasks
+                </button>
             </div>
             {data.todos==undefined?null:
             data.todos.map((array)=>{

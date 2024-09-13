@@ -5,7 +5,7 @@ export default function ListObject(props){
     const [xHover,setXHover]=useState(false);
 
     const removeItem=async ()=>{
-        const response = await fetch(`https://playground.4geeks.com/todo/todos/`+parseInt(props.id),{
+        await fetch(`https://playground.4geeks.com/todo/todos/`+parseInt(props.id),{
             method:"DELETE",
         });
         props.setNewFetch(!props.newFetch);
@@ -18,7 +18,7 @@ export default function ListObject(props){
                 {props.label}
             </div>
             <a className="btn p-2 link-hover" onMouseOver={()=>{setXHover(true)}} style={{opacity:xHover?0.2:1, display:removeable?'block':'none'}} onMouseLeave={()=>{setXHover(false)}} onClick={()=>{removeItem()}}>
-                <i class="fa-solid fa-x"></i>
+                X
             </a>
         </div>
     )
