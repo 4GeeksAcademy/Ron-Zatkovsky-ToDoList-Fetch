@@ -62,7 +62,6 @@ export default function ToDoList(){
         });
         setNewRemove(!newRemove);
         setNewFetch(!newFetch);
-        alert("Refresh the page to restart")
     }
 
     const handleEnter=(key)=>{
