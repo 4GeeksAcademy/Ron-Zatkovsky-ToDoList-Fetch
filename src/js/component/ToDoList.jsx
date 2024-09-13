@@ -6,18 +6,18 @@ export default function ToDoList(){
     const [data,setData]=useState({});
     const [newFetch,setNewFetch]=useState(false);
 
-    // useEffect(()=>{
-    //     const createUser=async ()=>{
-    //         await fetch(`https://playground.4geeks.com/todo/users/`,{
-    //             method:'POST',
-    //             body:JSON.stringify({name:input}),
-    //             headers: {
-    //             "Content-Type": "application/json"
-    //             }
-    //         }).catch((e)=>{console.log("user was created ",e)})
-    //     }
-    //     createUser();
-    // },[])
+    useEffect(()=>{
+        const createUser= ()=>{
+            fetch(`https://playground.4geeks.com/todo/users/Ron_Zatkovsky`,{
+                method:'POST',
+                body:JSON.stringify({name:'Ron_Zatkovsky'}),
+                headers: {
+                "Content-Type": "application/json"
+                }
+            }).catch((e)=>{console.log("user was created ",e)})
+        }
+        createUser();
+    },[])
 
 	useEffect(()=>{
         const getData= async ()=>{
@@ -54,6 +54,12 @@ export default function ToDoList(){
         }).catch((error)=>{console.log(error)});
     }
 
+    const removeUser=async ()=>{
+        const response = await fetch(`https://playground.4geeks.com/todo/users/Ron_Zatkovsky`,{
+            method:"DELETE",
+        });
+        setNewFetch(!newFetch);
+    }
 
     const handleEnter=(key)=>{
         if(key==="Enter"){
@@ -64,11 +70,15 @@ export default function ToDoList(){
     return(
         <div>
             <div>
+                <button className="btn btn-primary row" onClick={removeUser}>
+                    Delete User
+                </button>
                 <input 
                     placeholder="What needs to be done?"
                     onChange={(e)=>{setInput(e.target.value)}}
                     value={input}
                     onKeyUp={(e)=>{handleEnter(e.key)}}
+                    className="row"
                 ></input>
             </div>
             {data.todos==undefined?null:

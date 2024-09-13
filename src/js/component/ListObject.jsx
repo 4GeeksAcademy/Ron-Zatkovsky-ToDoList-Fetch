@@ -11,13 +11,14 @@ export default function ListObject(props){
         props.setNewFetch(!props.newFetch);
     }
 
+
     return(
         <div className="d-flex border" onMouseOver={()=>{setRemoveable(true)}} onMouseLeave={()=>{setRemoveable(false)}}>
             <div className="col p-2">
                 {props.label}
             </div>
             <a className="btn p-2 link-hover" onMouseOver={()=>{setXHover(true)}} style={{opacity:xHover?0.2:1, display:removeable?'block':'none'}} onMouseLeave={()=>{setXHover(false)}} onClick={()=>{removeItem()}}>
-                X
+                <i class="fa-solid fa-x"></i>
             </a>
         </div>
     )
