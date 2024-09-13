@@ -6,13 +6,27 @@ export default function ToDoList(){
     const [data,setData]=useState({});
     const [newFetch,setNewFetch]=useState(false);
 
+    // useEffect(()=>{
+    //     const createUser=async ()=>{
+    //         await fetch(`https://playground.4geeks.com/todo/users/`,{
+    //             method:'POST',
+    //             body:JSON.stringify({name:input}),
+    //             headers: {
+    //             "Content-Type": "application/json"
+    //             }
+    //         }).catch((e)=>{console.log("user was created ",e)})
+    //     }
+    //     createUser();
+    // },[])
+
 	useEffect(()=>{
-        async function getData(){
+        const getData= async ()=>{
             await fetch(`https://playground.4geeks.com/todo/users/`+'Ron_Zatkovsky').then((response)=>{
                 if(response.ok){
                     return response.json();
                 }
             }).then((jsonData)=>{
+                console.log(jsonData)
                 setData(jsonData);
             }).catch((error)=>{console.log(error)})
         }
@@ -20,7 +34,7 @@ export default function ToDoList(){
     },[newFetch])
 
     useEffect(()=>{
-        console.log(data.todos);
+        console.log(data);
     },[data])
 
     async function postData(){
